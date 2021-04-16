@@ -18,7 +18,7 @@ python module 清單:
 使用方法:  
   去release下載.py文件並用文字編輯開啟  
   在第二區塊填寫必要的資料:  
-    project = '裡面的文字請在填寫時間區間的網頁按右鍵,檢查  選擇相應的“選擇計畫編號”表單的"value" '  
+    project = ' 裡面的文字請在填寫時間區間的網頁按右鍵,檢查  選擇相應的“選擇計畫編號”表單的"value" '  
   在第三區塊可自定義時間區間(optional)  
   打開terminal  
   鍵入cd /YOUR_FILE_PATH/BLA/BLA/BLA  
