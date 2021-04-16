@@ -15,3 +15,6 @@ python module 清單:
       user_agent = ua.random  
       headers = {'user-agent': user_agent}  
   intervals
+
+呃～我發現我不會縮排......所以想看有縮排的請看RAW  
+(補個幹
