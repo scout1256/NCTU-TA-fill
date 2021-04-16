@@ -22,8 +22,8 @@ python module 清單:
   在第三區塊可自定義時間區間(optional)  
   打開terminal  
   鍵入cd /YOUR_FILE_PATH/BLA/BLA/BLA  
-  鍵入python3 THE_FILE_NAME
-  依指示操作即可
+  鍵入python3 THE_FILE_NAME  
+  依指示操作即可  
   
 呃～我發現我不會縮排......所以想看有縮排的請看RAW  
 (補個幹
