@@ -9,12 +9,12 @@ python module 清單:
   selenium  
   selenium webdriver  
   pyautogui  
+  intervals  
   fake_useragent(optional):  
       若不使用請＃ 以下  
       ua = UserAgent(verify_ssl=False)  
       user_agent = ua.random  
       headers = {'user-agent': user_agent}  
-  intervals
 
 呃～我發現我不會縮排......所以想看有縮排的請看RAW  
 (補個幹
