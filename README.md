@@ -17,15 +17,14 @@
       headers = {'user-agent': user_agent}  
   
 ## 使用方法:  
-  去release下載.py文件並用文字編輯開啟  
-  在第二區塊填寫必要的資料:  
-    project = ' 裡面的文字請在填寫時間區間的網頁 按右鍵,檢查 選擇相應的“選擇計畫編號”表單的"value" '  
-  S字典:  
-    可自定義時間區間(optional)  
-  打開terminal  
-  鍵入cd /YOUR_FILE_PATH/BLA/BLA/BLA  
-  鍵入python3 THE_FILE_NAME  
-  依指示操作即可  
+- 去release下載.py文件並用文字編輯開啟  
+- 在第二區塊填寫必要的資料:  
+  - project = ' 裡面的文字請在填寫時間區間的網頁 按右鍵,檢查 選擇相應的“選擇計畫編號”表單的"value" '  
+- S字典:  
+  - 可自定義時間區間(optional)  
+- 打開terminal  
+- 鍵入cd /YOUR_FILE_PATH/BLA/BLA/BLA  
+- 鍵入python3 THE_FILE_NAME  
+- 依指示操作即可  
   
-呃～我發現我不會縮排......所以想看有縮排的請看RAW  
-(補個幹
+markdown 學習中
