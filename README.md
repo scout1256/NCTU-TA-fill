@@ -6,12 +6,12 @@
 只要填好的必要的資料，就可以讓電腦自動幫你完成差勤助教的時數填寫喔！  
 
 ## python module 清單:  
-  selenium (以及下載相應的 webdriver)  
-  pyautogui  
-  intervals  
-  bs4
-  fake_useragent(optional):  
-      若不使用請＃ 以下  
+- selenium (以及下載相應的 webdriver)  
+- pyautogui  
+- intervals  
+- bs4
+- fake_useragent(optional):  
+    - 若不使用請＃ 以下  
       ua = UserAgent(verify_ssl=False)  
       user_agent = ua.random  
       headers = {'user-agent': user_agent}  
