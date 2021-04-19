@@ -11,7 +11,7 @@
 - pyautogui  
 - intervals  
 - bs4
-- fake_useragent(optional):  
+- fake_useragent (optional) :  
     - 若不使用請＃ 以下  
     ```
       ua = UserAgent(verify_ssl=False)  
