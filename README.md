@@ -29,7 +29,7 @@
     ```
   - Date = [想排除的日期] + [今天之後的日期] + [國定假日]  
     Date 條件: 1< Date[i] <=月底 and Date[i]不得重複  
-    Example: 假設今天28號  
+    Example:  假設今天28號  
     ```
     Date = [] + [x+1 for x in range(td.day, we)] + list(range(2, 6))
     Date = [] + [29, 30] + [2, 3, 4, 5]
