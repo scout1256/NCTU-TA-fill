@@ -29,7 +29,10 @@
 - 打開terminal  
 - 鍵入```cd /Users/blablabla/Downloads/blablabla```
 - 鍵入```python3 THE_FILE_NAME```
-- 依指示操作即可  
+- 依指示操作即可
+  - ```k``` : 刪除 簽到單/時數
+  - ```m``` : 手動操作
+  - ```km``` = ```k``` + ```m```
   
   
 ###### markdown 學習中
