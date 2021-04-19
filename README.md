@@ -25,7 +25,13 @@
 - 在第二區塊填寫必要的資料:  
   - project = ' 裡面的文字請在填寫時間區間的網頁 按右鍵,檢查 選擇相應的“選擇計畫編號”表單的"value" '  
 - S字典:  
-  - 可自定義時間區間(optional)  
+  - 可自定義時間區間(optional)
+    ```
+    S = {1: I.closedopen("08:00", "08:50"), 2: I.closedopen("09:00", "09:50"), 3: I.closedopen("10:10", "11:00"), 4: I.closedopen("11:10", "12:00"), 5: I.closedopen("13:20", "14:10"), 6: I.closedopen("14:20", "15:10"), 7: I.closedopen("15:30", "16:20"), 8: I.closedopen("16:30", "17:20"), 9: I.closedopen("17:30", "18:20"),
+     'all': I.closedopen("08:00", "18:20"),  # 可自定義區間
+     'am': I.closedopen("08:00", "12:00"),
+     'pm': I.closedopen("13:00", "18:20")}
+     ```
 - 打開terminal  
 - 鍵入```cd /Users/......./Downloads/.......```
 - 鍵入```python3 THE_FILE_NAME.py```
