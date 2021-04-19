@@ -28,7 +28,7 @@
   - 可自定義時間區間(optional)  
 - 打開terminal  
 - 鍵入```cd /Users/blablabla/Downloads/blablabla```
-- 鍵入```python3 THE_FILE_NAME```
+- 鍵入```python3 THE_FILE_NAME.py```
 - 程式運行時, 請勿移動/捲動滑鼠或新開其他程式
 - 依指示操作即可
   - ```k``` : 刪除 簽到單/時數
