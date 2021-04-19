@@ -9,6 +9,7 @@ python module 清單:
   selenium (以及下載相應的 webdriver)  
   pyautogui  
   intervals  
+  bs4
   fake_useragent(optional):  
       若不使用請＃ 以下  
       ua = UserAgent(verify_ssl=False)  
