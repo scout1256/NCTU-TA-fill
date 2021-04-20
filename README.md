@@ -13,7 +13,9 @@
 - bs4
 - fake_useragent (optional) :  
     - 若不使用請＃ 以下  
-      ```from fake_useragent import UserAgent```
+      ```
+      from fake_useragent import UserAgent
+      ```
       ```
       ua = UserAgent(verify_ssl=False)
       user_agent = ua.random
