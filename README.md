@@ -13,11 +13,12 @@
 - bs4
 - fake_useragent (optional) :  
     - 若不使用請＃ 以下  
-    ```
-    ua = UserAgent(verify_ssl=False)
-    user_agent = ua.random
-    headers = {'user-agent': user_agent}
-    ```
+      ```from fake_useragent import UserAgent```
+      ```
+      ua = UserAgent(verify_ssl=False)
+      user_agent = ua.random
+      headers = {'user-agent': user_agent}
+      ```
   
   
 ## 使用方法:
