@@ -1,3 +1,7 @@
+# OK自動找tt
+# OK自動找project
+# OK確認tt
+# OK比對td 與 project
 import datetime as dt
 import getpass
 from _datetime import datetime
@@ -16,18 +20,16 @@ ws = td.replace(day=1).isoweekday()  # 星期幾開始
 we = monthrange(td.year, td.month)[1]  # 幾號結束
 
 # 必填資料
-username = '0752525'  # 帳號
-tt = 100  # 總時數
-project = '110T212^334816^200^138336'  # 計畫編號選單的value: 4月
-# project = '110T212^335372^200^138418'  # 計畫編號選單的value: 5月
-Date = list(range(2, 6)) + [x+1 for x in range(td.day, we)] + []  # 排除的日期(ex.國定假日) 2 <= Date <= we
+Date = [x+1 for x in range(td.day, we)] + list(range(2, 6)) + []  # 排除的日期(ex.國定假日) 2 <= Date <= we
 Sun = ['all']
-Mon = [2,4,6,8,'all']  # 星期一的上課節數
-Tue = [2,4,6,8,'all']
-Wed = [2,3,4,6,8,'all']
-Thu = [2,4,6,8,'all']
-Fri = [2,4,6,8,'pm']
+Mon = [1, 3, 2, 'am']  # 星期一的上課節數
+Tue = []
+Wed = []
+Thu = []
+Fri = []
 Sat = ['all']
+# project = '110T...^......^...^......'  # 計畫編號選單的value(如果bs4找不到可能會用到)
+# tt = 0  # 總時數(如果bs4找不到可能會用到)
 
 
 def Del(j):
@@ -54,10 +56,8 @@ def FindC():
         return 0
 
 
-def ProgressBar(iteration, total, unit='s', mom=0, a=1, b=0, prefix='', suffix='', decimals=1, length=50, fill='█', unfill='-', printEnd="\r", finish="\n"):
+def ProgressBar(iteration, total, unit='s', mom='', a=1, b=0, prefix='', suffix='', decimals=1, length=50, fill='█', unfill='-', printEnd="\r", finish="\n"):
     """
-    Call in a loop to create terminal progress bar
-    @params:
         iteration   - Required  : current iteration (Int)
         total       - Required  : total iterations (Int)
         unit        - Optional  : unit (Str)
@@ -69,7 +69,9 @@ def ProgressBar(iteration, total, unit='s', mom=0, a=1, b=0, prefix='', suffix='
         decimals    - Optional  : positive number of decimals in percent complete (Int)
         length      - Optional  : character length of bar (Int)
         fill        - Optional  : bar fill character (Str)
+        unfill      - Optional  : bar unfill character (Str)
         printEnd    - Optional  : end character (e.g. "\r", "\r\n") (Str)
+        finish      - Optional  : finish move (Str)
     """
     if mom == 0:
         mom = ''
@@ -77,16 +79,13 @@ def ProgressBar(iteration, total, unit='s', mom=0, a=1, b=0, prefix='', suffix='
     filledLength = int(length * iteration // total)
     bar = fill * filledLength + unfill * (length - filledLength)
     print(f'\r{prefix} |{bar}| {percent}{unit}{mom} {suffix}', end = printEnd)
-    # Print New Line on Complete
-    if iteration == total:
+    if iteration == total:  # Print New Line on Complete
         print(finish, end='')
 
 
 def AskManual():
     ans = input('*** go Manual?  ').lower()
     if not (ans == 'no' or ans == 'n'):
-        # print('Ok, You`re MANUAL now!!!')
-        # manual = True
         pyautogui.hotkey('command', 'tab')
         return True
     else:
@@ -97,7 +96,8 @@ S = {1: I.closedopen("08:00", "08:50"), 2: I.closedopen("09:00", "09:50"), 3: I.
      'all': I.closedopen("08:00", "18:20"),  # 可自定義區間
      'am': I.closedopen("08:00", "12:00"),
      'pm': I.closedopen("13:00", "18:20")}
-tn, ans, done, kill, manual = 0, 1, False, False, False  # total time now
+tn, ans, P, project, pdata, Plist = 0, 1, [], '', '', [[]]
+done = kill = manual = test = False
 X = [(k+ws-1)%7 for k in range(2, we+1)]  # x座標
 Y = [int((k+ws-1)/7) for k in range(2, we+1)]  # y座標
 W = {l+1: [X[l-1], Y[l-1]] for l in range(1, we)}
@@ -134,43 +134,33 @@ for key, val in W.items():
     print(key, ':', val)
 print()
 
-for key, val in W.items():  # 確認可填時數是否 >= tt
-    if tn >= tt:
-        break
-    for k in range(2, len(val), 4):
-        if tn >= tt:
-            break
-        tn += int((60 * val[k + 2] + val[k + 3] - 60 * val[k] - val[k + 1]) / 30) / 2
-if tn >= tt:
-    print('\n\n')
-else:
-    print('Lack', tt - tn, 'hr!!!!!!!!!!!!!!!')
-    ans = input('*** Should we proceed?  ').lower()
-    print()
-for i in range(50):  # proceed
-    ProgressBar(i+1, 50, unit='%', a=20, decimals=0, finish='')
-    sleep(0.03)
+for i in range(50):  # ProgressBar
+    ProgressBar(i + 1, 50, unit='%', a=20, decimals=0, finish='')
+    # sleep(0.06 - i * 0.0012)
+    sleep(0.000024 * (i - 50) ** 2 + 0.01)
 j = ' |'
-l = "This program is writen by scout1256/0752525       "
-for i in range(50):  # proceed
-    j += l[i]
-    print(ProgressBar(i+1, 50, unit='%', a=20, decimals=0, unfill='█', finish=''), '\r', j, sep='',  end='\r')
+for i in range(50):  # 作者資訊
+    j += 'This program is writen by scout1256/0752525       '[i]
+    print(ProgressBar(i + 1, 50, unit='%', a=20, decimals=0, unfill='█', finish='', mom=' '), '\r', j, sep='', end='\r')
     sleep(0.1)
 print('\n')
 
-#################################  開始操作  #################################
+'''------------------------------------------------------開始操作------------------------------------------------------'''
 if ans != 'no' and ans != 'n':
-    password = getpass.getpass(prompt='Password (or "k" = kill, "m" = manual, "km"): ')  # 問密碼
-    if password.lower() == 'k' or password.lower() == 'km' or password.lower() == 'm':  # 刪除 簽到單/時數
-        if password.lower() == 'm':
+    username = input('Username (特殊變數 "k" = kill, "m" = manual, "d" = developer, "" = d+k): ')
+    if any(i in username.lower() for i in ['k', 'm', 'd', '']) and len(username) <= 3:  # 刪除 簽到單/時數
+        if 'm' in username.lower():
             manual = True
-            password = getpass.getpass(prompt='Real Password: ')
-        else:
-            if password.lower() == 'km':  # 並停止
-                manual = True
+        if 'k' in username.lower() or username == '':
             kill = True
-            password = getpass.getpass(prompt='Real Password: ')
-            print('\n','Killing all now!', sep='')
+        if 'd' in username.lower() or username == '':
+            username = '0752525'
+            password = 'YOUR_PASSWORD'
+        else:
+            username = input('Real Username: ')
+            password = getpass.getpass()  # 問密碼
+    else:
+        password = getpass.getpass()  # 問密碼
     ua = UserAgent(verify_ssl=False)
     user_agent = ua.random
     headers = {'user-agent': user_agent}
@@ -187,11 +177,16 @@ if ans != 'no' and ans != 'n':
         soup = BeautifulSoup(driver.page_source, 'html.parser').find("h1", class_="align-middle")
         if not soup is None and soup.string == '您目前的請核列表':
             break
-    sleep(0.5)
-    pyautogui.click(x=30, y=180, duration=0.01)
-    sleep(0.1)
+    '''--------------------------------------------------尋找 Plist--------------------------------------------------'''
+    for tr in BeautifulSoup(driver.page_source, 'html.parser').tbody.find_all("tr"):
+        Plist.append([td.string for td in tr.find_all("td")])
+    '''['109T212', '學生公費獎助學金', '勞動型', '時薪', '200', '54', '2020-04-02', '2020-04-30', 可能(候選value)]'''
 
+    pyautogui.click(x=30, y=180, duration=0.5)
+    sleep(0.1)
+    '''-----------------------------------------------------kill-----------------------------------------------------'''
     if kill:  # 刪除 簽到單/時數
+        print('\n', 'Killing all now!', sep='')
         driver.find_element(By.ID, "node_level-1-4").click()
         sleep(1)
         for i in range(len(BeautifulSoup(driver.page_source, 'html.parser').find_all("div", title="待審"))):
@@ -206,10 +201,62 @@ if ans != 'no' and ans != 'n':
             Del(int(soup.string.split(' ')[2]))
         print('簽到單/時數 已刪除！', end='\n\n')
 
+    '''----------------------------------------------尋找project, tt----------------------------------------------'''
+    driver.find_element(By.ID, "node_level-1-1").click()
+    for i in range(20):
+        sleep(0.1)
+        if not BeautifulSoup(driver.page_source, 'html.parser').find("select", id='pno') is None:
+            pdata = BeautifulSoup(driver.page_source, 'html.parser').find("select", id='pno').find_all("option")
+            break
+    for i in range(1, len(Plist)):
+        if datetime.strptime(Plist[i][6], '%Y-%m-%d').date() <= td <= datetime.strptime(Plist[i][7], '%Y-%m-%d').date():
+            for j in range(1, len(pdata)):
+                if pdata[j].string.split(' ')[0].replace('	', '').replace('\n', '').replace(':', '') in Plist[i]:
+                    if pdata[j].string.split(' ')[1].split('~')[0] == Plist[i][6]:  # 日期相等
+                        Plist[0].append(i)
+                        Plist[i].append(pdata[j].get('value'))
+    if len(Plist[0]) == 1:  # 本月只有一個 Project
+        project = Plist[Plist[0][0]][8]
+        # noinspection PyTypeChecker
+        tt = int(Plist[Plist[0][0]][5])
+    else:  # 本月不只一個 Project
+        pyautogui.hotkey('command', 'tab')
+        for i in Plist[0]:
+            print(f'{i}. {Plist[i]}')
+        while True:
+            ans = input(f'which Project do you wish to fill?  {Plist[0]}  ')
+            if ans == '':
+                ans = Plist[0][0]
+            elif not int(ans) in Plist[0]:
+                continue
+            project = Plist[int(ans)][8]
+            tt = int(Plist[int(ans)][5])
+            pyautogui.hotkey('command', 'tab')
+            break
+    '''--------------------------------------------------確認時數--------------------------------------------------'''
+    for key, val in W.items():  # 確認可填時數是否 >= tt
+        # noinspection PyUnboundLocalVariable
+        if tn >= tt:
+            break
+        for k in range(2, len(val), 4):
+            if tn >= tt:
+                break
+            tn += int((60 * val[k + 2] + val[k + 3] - 60 * val[k] - val[k + 1]) / 30) / 2
+    if tn < tt:
+        pyautogui.hotkey('command', 'tab')
+        print('Lack', tt - tn, 'hr!!!!!!!!!!!!!!!')
+        ans = input('*** Should we proceed?  ').lower()
+        pyautogui.hotkey('command', 'tab')
+        print()
+
+    '''-----------------------------------------------------Auto-----------------------------------------------------'''
     while not done and not manual and ans != 'no' and ans != 'n':
-        driver.find_element(By.ID, "node_level-1-1").click()
+        '''--------------------------------------------------填寫時數--------------------------------------------------'''
+        pyautogui.click(x=30, y=180, duration=0.1)
+        sleep(0.1)
+        Select(driver.find_element_by_name('workP')).select_by_value(project)  # 選擇計畫
+        sleep(0.5)
         tn, c, cdata= 0, 0, 0  # 初始化, 填寫時數
-        sleep(1)  # 1.5
         for key, val in W.items():  # days
             if tn == tt:
                 break
@@ -226,15 +273,16 @@ if ans != 'no' and ans != 'n':
                         print('interval: ', "%02d"%val[k], ':', "%02d"%val[k+1], '-', "%02d"%val[k+2], ':', "%02d"%val[k+3], sep='')  # 印出要執行的區間
                         print('..........Total time now is '+str(tn)+' hr / +'+str(int((60*val[k+2]+val[k+3]-60*val[k]-val[k+1])/30)/2)+' hr / count: '+str(c))
                     Select(driver.find_element_by_name('workP')).select_by_value(project)  # 選擇計畫
-                    sleep(0.01)
+                    sleep(0.1)
                     driver.find_element(By.NAME, "workS").click()
+                    sleep(0.1)
                     pyautogui.click(x=484 + 39*val[0], y=441 + 26*val[1], clicks= 2, interval=0.01, duration=0.2)  # date
-                    pyautogui.moveTo(576, 595, 0.1)
+                    pyautogui.moveTo(576, 595, 0.2)
                     pyautogui.dragTo(576 + 136 / 23 * val[k], 595, 0.1, button='left')  # hour
                     if not val[k+1] == 0:
                         pyautogui.moveTo(576, 619, 0.1)
                         pyautogui.dragTo(576 + 136 / 59 * val[k+1], 619, 0.1, button='left')  # min
-                        sleep(0.1)
+                    sleep(0.1)
                     driver.find_element(By.NAME, "workE").click()
                     pyautogui.click(x=484+39*val[0], y=441+26*(val[1]+1), clicks= 2, interval=0.01, duration=0.2)
                     pyautogui.moveTo(576, 621, 0.1)
@@ -242,7 +290,7 @@ if ans != 'no' and ans != 'n':
                     if not val[k+3] == 0:
                         pyautogui.moveTo(576, 645, 0.1)
                         pyautogui.dragTo(576 + 136 / 59 * val[k+3], 645, 0.1, button='left')  # min
-                        sleep(0.1)
+                    sleep(0.1)
                     pyautogui.scroll(-2)
                     pyautogui.click(x=398, y=808)  # 點儲存
                     pyautogui.scroll(2)
@@ -263,7 +311,7 @@ if ans != 'no' and ans != 'n':
                     break
             sleep(0.2)
         print()
-        
+        '''--------------------------------------------------填寫完成--------------------------------------------------'''
         sleep(1)
         if tn == tt:  # tt相符
             if cdata == c:  # COUNT相符, 送出表單
@@ -274,25 +322,27 @@ if ans != 'no' and ans != 'n':
                 pyautogui.press('enter')
                 sleep(2.5)
                 pyautogui.press('esc')
-                driver.find_element(By.ID, "node_level-1-4").click()  # check
-                sleep(1)
-                pyautogui.hotkey('command', 'tab')
-                print('*** Is TOTAL TIME now:', tt, '?')
-                ans = input().lower()
-                if not (ans == 'no' or ans == 'n'):  # 完成
-                    pyautogui.hotkey('command', 'tab')
-                    done = True
-                    print('Well done Rex!!!')
-                else:  # 撤回, 刪掉現有的時數
-                    pyautogui.hotkey('command', 'tab')
-                    pyautogui.moveTo(700, 500, 0.1)
-                    pyautogui.scroll(2)
-                    pyautogui.click(x=389, y=300)
-                    pyautogui.click(x=426, y=500)
-                    sleep(2)
-                    Del(c)
-                    pyautogui.hotkey('command', 'tab')
-                    # 重來
+                driver.find_element(By.ID, "node_level-1-4").click()  # check if tt is right
+                for i in range(30):
+                    sleep(0.1)
+                    if BeautifulSoup(driver.page_source, 'html.parser').find("div", title="待審") is None:
+                        continue
+                    for soup in BeautifulSoup(driver.page_source, 'html.parser').find_all("div", title="待審"):
+                        if soup.parent.next_sibling.next_sibling.div.string == str(tn):
+                            done = True
+                            if len(BeautifulSoup(driver.page_source, "html.parser").find_all("div", title="待審")) == 1:
+                                print('Well Done!!!!!!!!!!!!!!!!!!!!!!!!\n')
+                            elif BeautifulSoup(driver.page_source, 'html.parser').find_all("div", title="待審").index(soup) == len(BeautifulSoup(driver.page_source, "html.parser").find_all("div", title="待審")):
+                                print(f'Done!! 時數相符且待審: {len(BeautifulSoup(driver.page_source, "html.parser").find_all("div", title="待審"))}\n')
+                        else:
+                            pyautogui.moveTo(700, 500, 0.1)
+                            pyautogui.scroll(2)
+                            pyautogui.click(x=389, y=300)
+                            pyautogui.click(x=426, y=500)
+                            sleep(2)
+                            Del(c)
+                            pyautogui.hotkey('command', 'tab')
+                    break
             else:  # COUNT不符, 應該可刪
                 pyautogui.hotkey('command', 'tab')
                 print('COUNT is wrong!', '*** Delete all??', sep='\n', end='  ')
@@ -301,11 +351,9 @@ if ans != 'no' and ans != 'n':
                     pyautogui.hotkey('command', 'tab')
                     Del(cdata)
                     pyautogui.hotkey('command', 'tab')
-                    # 重來
                 else:  # 不刪, 改手動
                     manual = AskManual()
-
-        else:  # tt不符, 刪除時數
+        else:  # 刪除時數
             pyautogui.hotkey('command', 'tab')
             print('Lack', tt - tn, 'hr')
             ans = input('*** Should we delete all?   press Y to continue......  ').lower()
@@ -320,16 +368,19 @@ if ans != 'no' and ans != 'n':
         if not done and not manual:
             ans = input('*** Should we do this again?  ').lower()
             if ans == 'no' or ans == 'n':
-                # 看要不要加入手動的選項
                 driver.quit()
                 break
             else:
                 pyautogui.hotkey('command', 'tab')
     else:  # 完成 or 手動 or 不要繼續
-        if not manual:
-            sleep(5)
-            driver.quit() # 完成 or 不要繼續
+        if manual:
+            print('\nOk, You`re MANUAL now!!!')
+            pyautogui.hotkey('command', 'tab')
+        elif done:
+            pyautogui.hotkey('command', 'tab')
+            sleep(3)
+            driver.quit()  # 完成 or 不要繼續
         else:
-            print('\nOk, You`re MANUAL now!!!', end='\n\n')
+            driver.quit()
 
-# python3 差勤-助教\ v1.5.py
+# python3 差勤-助教\ v1.6.py
