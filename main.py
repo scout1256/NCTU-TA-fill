@@ -1,7 +1,3 @@
-# OK自動找tt
-# OK自動找project
-# OK確認tt
-# OK比對td 與 project
 import datetime as dt
 import getpass
 from _datetime import datetime
