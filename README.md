@@ -4,7 +4,8 @@
 ##### 有沒有覺得在差勤系統填助教時數有點浪費生命？  
 ##### 今天有個懶鬼浪費好多時間幫大家寫了code  
 ##### 只要填好的必要的資料，就可以讓電腦自動幫你完成差勤助教的時數填寫喔！  
-  
+##### https://pt-attendance.nctu.edu.tw/verify/userLogin.php
+    
     
 ## python module 清單:
 - selenium (以及下載相應的 webdriver)  
